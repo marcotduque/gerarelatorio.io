@@ -85,15 +85,6 @@
         .alert-danger { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
         .alert-success { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
 
-        /* Tabs */
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; }
-        .tab-btn { background: none; border: none; padding: 12px 20px; cursor: pointer; font-weight: 600; color: #7f8c8d; border-bottom: 3px solid transparent; transition: all 0.2s; }
-        .tab-btn.ativo { color: #3498db; border-bottom-color: #3498db; }
-        .tab-btn:hover { color: #3498db; }
-
-        .tab-content { display: none; }
-        .tab-content.ativo { display: block; }
-
         h3 { margin: 20px 0 15px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; font-size: 16px; }
     </style>
 </head>
@@ -106,31 +97,28 @@
 
     <form id="formularioGerador">
 
-        <!-- ==============================================
-             TIPO DE OCORRÊNCIA
-             ============================================== -->
         <div class="secao">
             <div class="titulo-secao">📋 Tipo de Ocorrência</div>
             <div class="conteudo-secao">
                 <p style="margin-bottom: 15px; color: #666;">Selecione o tipo de ocorrência para adaptar o formulário:</p>
                 <div class="tipo-crime-grid">
                     <label class="tipo-card selecionado" onclick="setTipoOcorrencia('morte_violenta')">
-                        <input type="radio" name="tipoOcorrencia" value="morte_violenta" checked>
+                        <input type="radio" name="tipoOcorrencia" id="tipo_morte" value="morte_violenta" checked>
                         <i>☠️</i>
                         <div>Morte Violenta</div>
                     </label>
                     <label class="tipo-card" onclick="setTipoOcorrencia('encontro_cadaver')">
-                        <input type="radio" name="tipoOcorrencia" value="encontro_cadaver">
+                        <input type="radio" name="tipoOcorrencia" id="tipo_cadaver" value="encontro_cadaver">
                         <i>🔍</i>
                         <div>Encontro de Cadáver</div>
                     </label>
                     <label class="tipo-card" onclick="setTipoOcorrencia('acidente_transito')">
-                        <input type="radio" name="tipoOcorrencia" value="acidente_transito">
+                        <input type="radio" name="tipoOcorrencia" id="tipo_acidente" value="acidente_transito">
                         <i>🚗</i>
                         <div>Acidente de Trânsito</div>
                     </label>
                     <label class="tipo-card" onclick="setTipoOcorrencia('crime_patrimonial')">
-                        <input type="radio" name="tipoOcorrencia" value="crime_patrimonial">
+                        <input type="radio" name="tipoOcorrencia" id="tipo_patrimonial" value="crime_patrimonial">
                         <i>🏠</i>
                         <div>Crime Patrimonial</div>
                     </label>
@@ -138,9 +126,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             1. EQUIPE PERICIAL
-             ============================================== -->
         <div class="secao">
             <div class="titulo-secao">👥 1. Equipe Pericial</div>
             <div class="conteudo-secao">
@@ -166,11 +151,11 @@
 
                 <h3 style="margin-top: 25px;">Forças de Segurança no Local</h3>
                 <div class="checkbox-group">
-                    <label class="check-card"><input type="checkbox" onchange="toggleAgencia('div_bm', this)"> Brigada Militar</label>
-                    <label class="check-card"><input type="checkbox" onchange="toggleAgencia('div_pc', this)"> Polícia Civil</label>
-                    <label class="check-card"><input type="checkbox" onchange="toggleAgencia('div_gm', this)"> Guarda Municipal</label>
-                    <label class="check-card"><input type="checkbox" onchange="toggleAgencia('div_prf', this)"> PRF</label>
-                    <label class="check-card"><input type="checkbox" onchange="toggleAgencia('div_cb', this)"> Corpo de Bombeiros</label>
+                    <label class="check-card"><input type="checkbox" id="chk_bm" onchange="toggleAgencia('div_bm', this)"> Brigada Militar</label>
+                    <label class="check-card"><input type="checkbox" id="chk_pc" onchange="toggleAgencia('div_pc', this)"> Polícia Civil</label>
+                    <label class="check-card"><input type="checkbox" id="chk_gm" onchange="toggleAgencia('div_gm', this)"> Guarda Municipal</label>
+                    <label class="check-card"><input type="checkbox" id="chk_prf" onchange="toggleAgencia('div_prf', this)"> PRF</label>
+                    <label class="check-card"><input type="checkbox" id="chk_cb" onchange="toggleAgencia('div_cb', this)"> Corpo de Bombeiros</label>
                 </div>
 
                 <div id="div_bm" class="agencia-detalhe">
@@ -202,9 +187,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             2. DADOS DO ATENDIMENTO
-             ============================================== -->
         <div class="secao">
             <div class="titulo-secao">🌍 2. Dados do Atendimento</div>
             <div class="conteudo-secao">
@@ -254,9 +236,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             3. CARACTERIZAÇÃO DO LOCAL
-             ============================================== -->
         <div class="secao">
             <div class="titulo-secao">🏢 3. Caracterização do Local</div>
             <div class="conteudo-secao">
@@ -281,7 +260,6 @@
                     </select>
                 </div>
 
-                <!-- Edificação -->
                 <div id="secEdifica" class="escondido">
                     <h3>Dados da Edificação</h3>
                     <div class="grid-3">
@@ -329,7 +307,6 @@
                     </div>
                 </div>
 
-                <!-- Local Aberto -->
                 <div id="secLocalAberto" class="escondido">
                     <h3>Descrição do Terreno</h3>
                     <div class="campo">
@@ -338,7 +315,6 @@
                     </div>
                 </div>
 
-                <!-- Via Pública -->
                 <div id="secViaPública" class="escondido">
                     <h3>Dados da Via Pública</h3>
                     <div class="grid-3">
@@ -415,9 +391,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             4. PRESERVAÇÃO DO LOCAL
-             ============================================== -->
         <div class="secao">
             <div class="titulo-secao">🔒 4. Preservação do Local</div>
             <div class="conteudo-secao">
@@ -461,9 +434,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             5. VÍTIMAS
-             ============================================== -->
         <div id="secVitimas" class="secao">
             <div class="titulo-secao">👤 5. Dados das Vítimas</div>
             <div class="conteudo-secao">
@@ -472,9 +442,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             6. VEÍCULOS ENVOLVIDOS
-             ============================================== -->
         <div class="secao">
             <div class="titulo-secao">🚗 6. Veículos Envolvidos</div>
             <div class="conteudo-secao">
@@ -483,9 +450,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             7. VESTÍGIOS
-             ============================================== -->
         <div class="secao">
             <div class="titulo-secao">🔍 7. Vestígios Coletados</div>
             <div class="conteudo-secao">
@@ -494,9 +458,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             8. OBSERVAÇÕES GERAIS
-             ============================================== -->
         <div class="secao">
             <div class="titulo-secao">📝 8. Observações Gerais</div>
             <div class="conteudo-secao">
@@ -507,9 +468,6 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             AÇÕES FINAIS
-             ============================================== -->
         <div class="acoes-finais">
             <button type="button" class="btn-gerar" onclick="gerarRelatorio()">📄 Gerar Relatório</button>
             <button type="button" class="btn-limpar" onclick="limparFormulario()">🔄 Limpar Formulário</button>
@@ -518,7 +476,6 @@
 
     </form>
 
-    <!-- Resultado -->
     <div id="resultadoContainer">
         <h2 style="color: #2c3e50; margin-bottom: 15px; font-size: 22px;">📋 Relatório Gerado</h2>
         <textarea id="relatorioText" readonly></textarea>
@@ -527,18 +484,25 @@
 </div>
 
 <script>
+    /* ==============================================
+       VARIÁVEIS GERAIS
+    ============================================== */
     let contadorTecnicos = 0;
     let contadorVitimas = 0;
     let contadorVeiculos = 0;
     let contadorVestibulos = 0;
 
-    // ==================== TIPO DE OCORRÊNCIA ====================
+    /* ==============================================
+       UI / CONTROLES
+    ============================================== */
     function setTipoOcorrencia(tipo) {
         document.querySelectorAll('.tipo-card').forEach(card => card.classList.remove('selecionado'));
-        document.querySelector(`input[value="${tipo}"]`).parentElement.classList.add('selecionado');
-        document.querySelector(`input[value="${tipo}"]`).checked = true;
+        let inputSelect = document.querySelector(`input[value="${tipo}"]`);
+        if(inputSelect) {
+            inputSelect.parentElement.classList.add('selecionado');
+            inputSelect.checked = true;
+        }
         
-        // Mostrar/ocultar seção de vítimas conforme tipo
         const secVitimas = document.getElementById('secVitimas');
         if(tipo === 'crime_patrimonial') {
             secVitimas.classList.add('escondido');
@@ -547,7 +511,35 @@
         }
     }
 
-    // ==================== TÉCNICOS ====================
+    function toggleAgencia(divId, checkbox) {
+        const div = document.getElementById(divId);
+        if(checkbox.checked) {
+            div.classList.add('ativo');
+        } else {
+            div.classList.remove('ativo');
+        }
+    }
+
+    document.getElementById('checkRelacionado').addEventListener('change', function() {
+        const div = document.getElementById('divRelacionado');
+        if(this.checked) {
+            div.classList.remove('escondido');
+        } else {
+            div.classList.add('escondido');
+        }
+    });
+
+    function toggleNaturezaLocal() {
+        const nat = document.getElementById('naturezaLocal').value;
+        document.getElementById('secEdifica').classList.add('escondido');
+        document.getElementById('secLocalAberto').classList.add('escondido');
+        document.getElementById('secViaPública').classList.add('escondido');
+        
+        if(nat === 'Edificação') document.getElementById('secEdifica').classList.remove('escondido');
+        else if(nat === 'Local Aberto') document.getElementById('secLocalAberto').classList.remove('escondido');
+        else if(nat === 'Via Pública') document.getElementById('secViaPública').classList.remove('escondido');
+    }
+
     function addTecnico() {
         contadorTecnicos++;
         const html = `<div class="item-dinamico" id="tec_${contadorTecnicos}">
@@ -572,39 +564,6 @@
         if(elem) elem.remove();
     }
 
-    // ==================== AGÊNCIAS ====================
-    function toggleAgencia(divId, checkbox) {
-        const div = document.getElementById(divId);
-        if(checkbox.checked) {
-            div.classList.add('ativo');
-        } else {
-            div.classList.remove('ativo');
-        }
-    }
-
-    // ==================== LOCAL RELACIONADO ====================
-    document.getElementById('checkRelacionado').addEventListener('change', function() {
-        const div = document.getElementById('divRelacionado');
-        if(this.checked) {
-            div.classList.remove('escondido');
-        } else {
-            div.classList.add('escondido');
-        }
-    });
-
-    // ==================== NATUREZA DO LOCAL ====================
-    function toggleNaturezaLocal() {
-        const nat = document.getElementById('naturezaLocal').value;
-        document.getElementById('secEdifica').classList.add('escondido');
-        document.getElementById('secLocalAberto').classList.add('escondido');
-        document.getElementById('secViaPública').classList.add('escondido');
-        
-        if(nat === 'Edificação') document.getElementById('secEdifica').classList.remove('escondido');
-        else if(nat === 'Local Aberto') document.getElementById('secLocalAberto').classList.remove('escondido');
-        else if(nat === 'Via Pública') document.getElementById('secViaPública').classList.remove('escondido');
-    }
-
-    // ==================== VÍTIMAS ====================
     function addVitima() {
         contadorVitimas++;
         const vId = contadorVitimas;
@@ -704,7 +663,6 @@
         if(elem) elem.remove();
     }
 
-    // ==================== VEÍCULOS ====================
     function addVeiculo() {
         contadorVeiculos++;
         const vId = contadorVeiculos;
@@ -765,7 +723,6 @@
         if(elem) elem.remove();
     }
 
-    // ==================== DANOS EM VEÍCULOS ====================
     function addDano(vId) {
         const listaDanos = document.getElementById(`listaDanos_${vId}`);
         const danoId = Date.now();
@@ -801,7 +758,6 @@
         if(elem) elem.remove();
     }
 
-    // ==================== LESÕES ====================
     function addLesao(vId) {
         const listaLesoes = document.getElementById(`listaLesoes_${vId}`);
         const lesaoId = Date.now();
@@ -830,37 +786,6 @@
         if(elem) elem.remove();
     }
 
-    // ==================== CÁLCULO IPM ====================
-    function calcIPM(vId) {
-        let tRet = parseFloat(document.getElementById(`tret_${vId}`).value) || 0;
-        let tAmbGeral = parseFloat(document.getElementById('tempAmbienteGeral').value) || 25;
-        let rig = document.getElementById(`rig_${vId}`).value;
-        let liv = document.getElementById(`liv_${vId}`).value;
-        let mv = document.getElementById(`mvd_${vId}`).checked;
-        let destaque = document.getElementById(`destaquepi_${vId}`).value;
-        let resBox = document.getElementById(`ipmRes_${vId}`);
-        let minH = 0; let maxH = 0; let msgs = [];
-
-        if(tRet > 0 && tRet > tAmbGeral && tRet <= 37) {
-            let df = 37 - tRet; let ht = Math.round(df * 1.0);
-            msgs.push(`Algor Mortis: ~${ht}h`); minH = Math.max(0, ht - 2); maxH = ht + 2;
-        }
-        if(rig==="1"){ msgs.push("Rigidez Inicial (1-2h)"); if(minH===0){minH=1;maxH=3;} }
-        else if(rig==="3"){ msgs.push("Rigidez M. Sup (3-4h)"); minH=Math.max(minH,2); maxH=Math.max(maxH,5); }
-        else if(rig==="5"){ msgs.push("Rigidez M. Inf (5-8h)"); minH=Math.max(minH,5); maxH=Math.max(maxH,8); }
-        else if(rig==="8"){ msgs.push("Rigidez Completa (8-12h+)"); minH=Math.max(minH,8); maxH=Math.max(maxH,18); }
-        else if(rig==="24"){ msgs.push("Rigidez Desfazendo (>24h)"); minH=Math.max(minH,24); maxH=36; }
-        if(liv==="M"){ msgs.push("Livores Móveis (2-8h)"); maxH=Math.min(maxH||12,10); }
-        else if(liv==="F"){ msgs.push("Livores Fixos (10-12h+)"); minH=Math.max(minH,10); }
-        if(mv){ msgs.push("Mancha Verde (>18h)"); minH=Math.max(minH,18); if(maxH<18) maxH=36; }
-        if(destaque==="Sim"){ msgs.push("Destacamento de Pele (>36h)"); minH=Math.max(minH,36); maxH=Math.max(maxH,72); }
-
-        if(msgs.length === 0) { resBox.innerText = "Preencha os dados para calcular..."; resBox.setAttribute('data-ipmval', ''); return; }
-        let ext = `IPM Estimado: ${minH} a ${maxH} horas\nBaseado em: ` + msgs.join(" | ");
-        resBox.innerText = ext; resBox.setAttribute('data-ipmval', ext);
-    }
-
-    // ==================== VESTÍGIOS ====================
     function addVestibular() {
         contadorVestibulos++;
         const vId = contadorVestibulos;
@@ -886,7 +811,7 @@
                         <option value="Outro">Outro</option>
                     </select>
                 </div>
-                <div class="campo" id="outroVest_${vId}" class="escondido">
+                <div id="outroVest_${vId}" class="campo escondido">
                     <label>Especifique o Tipo</label>
                     <input type="text" class="v-outro" placeholder="Descreva o tipo">
                 </div>
@@ -931,7 +856,50 @@
         }
     }
 
-    // ==================== GERAR RELATÓRIO ====================
+
+    /* ==============================================
+       CÁLCULOS PERICIAIS
+    ============================================== */
+    function calcIPM(vId) {
+        let tRet = parseFloat(document.getElementById(`tret_${vId}`).value) || 0;
+        let tAmbGeral = parseFloat(document.getElementById('tempAmbienteGeral').value) || 25;
+        let rig = document.getElementById(`rig_${vId}`).value;
+        let liv = document.getElementById(`liv_${vId}`).value;
+        let mv = document.getElementById(`mvd_${vId}`).checked;
+        let destaque = document.getElementById(`destaquepi_${vId}`).value;
+        let resBox = document.getElementById(`ipmRes_${vId}`);
+        let minH = 0; let maxH = 0; let msgs = [];
+
+        if(tRet > 0 && tRet > tAmbGeral && tRet <= 37) {
+            let df = 37 - tRet; let ht = Math.round(df * 1.0);
+            msgs.push(`Algor Mortis: ~${ht}h`); minH = Math.max(0, ht - 2); maxH = ht + 2;
+        }
+        if(rig==="1"){ msgs.push("Rigidez Inicial (1-2h)"); if(minH===0){minH=1;maxH=3;} }
+        else if(rig==="3"){ msgs.push("Rigidez M. Sup (3-4h)"); minH=Math.max(minH,2); maxH=Math.max(maxH,5); }
+        else if(rig==="5"){ msgs.push("Rigidez M. Inf (5-8h)"); minH=Math.max(minH,5); maxH=Math.max(maxH,8); }
+        else if(rig==="8"){ msgs.push("Rigidez Completa (8-12h+)"); minH=Math.max(minH,8); maxH=Math.max(maxH,18); }
+        else if(rig==="24"){ msgs.push("Rigidez Desfazendo (>24h)"); minH=Math.max(minH,24); maxH=36; }
+        if(liv==="M"){ msgs.push("Livores Móveis (2-8h)"); maxH=Math.min(maxH||12,10); }
+        else if(liv==="F"){ msgs.push("Livores Fixos (10-12h+)"); minH=Math.max(minH,10); }
+        if(mv){ msgs.push("Mancha Verde (>18h)"); minH=Math.max(minH,18); if(maxH<18) maxH=36; }
+        if(destaque==="Sim"){ msgs.push("Destacamento de Pele (>36h)"); minH=Math.max(minH,36); maxH=Math.max(maxH,72); }
+
+        if(msgs.length === 0) { 
+            resBox.innerText = "Preencha os dados para calcular..."; 
+            resBox.setAttribute('data-ipmval', ''); 
+            return; 
+        }
+        let ext = `IPM Estimado: ${minH} a ${maxH} horas\nBaseado em: ` + msgs.join(" | ");
+        resBox.innerText = ext; 
+        resBox.setAttribute('data-ipmval', ext);
+        resBox.setAttribute('data-minh', minH);
+        resBox.setAttribute('data-maxh', maxH);
+    }
+
+
+    /* ==============================================
+       GERAÇÃO DE RELATÓRIO E DADOS
+    ============================================== */
     function gerarRelatorio() {
         // Validação
         if(!document.getElementById('peritoRelator').value) {
@@ -1083,6 +1051,8 @@
             R += "6. DADOS DAS VÍTIMAS\n";
             R += "───────────────────────────────────────────────────────────────────────────────────\n\n";
             vits.forEach((v, idx) => {
+                let ipnId = v.id.split('_')[1]; // ID correto dinâmico!
+                
                 R += `VÍTIMA ${String(idx+1).padStart(2, '0')}\n`;
                 R += `─────────────────────────────────────────────────────────────────────────────────\n`;
                 R += `Nome/Identificação: ` + (v.querySelector('.vit-nome').value || 'N/A') + `\n`;
@@ -1092,19 +1062,27 @@
                 R += `Posição do Cadáver: ` + (v.querySelector('.vit-posicao').value || 'N/A') + `\n\n`;
 
                 R += `Perinecroscopia:\n`;
-                R += `  Rigidez Cadavérica: ${v.querySelector('.rig_' + (idx+1)).value || 'N/A'}\n`;
-                R += `  Estado dos Livores: ${v.querySelector('.liv_' + (idx+1)).value || 'N/A'}\n`;
-                R += `  Mancha Verde: ${v.querySelector('.mvd_' + (idx+1)).checked ? 'Presente' : 'Ausente'}\n`;
-                R += `  Destacamento de Pele: ${v.querySelector('.destaquepi_' + (idx+1)).value || 'N/A'}\n`;
-                if(v.querySelector('.outrosFenom_' + (idx+1)).value) {
-                    R += `  Outros Fenômenos: ${v.querySelector('.outrosFenom_' + (idx+1)).value}\n`;
+                R += `  Rigidez Cadavérica: ${v.querySelector('.rig_' + ipnId).value || 'N/A'}\n`;
+                R += `  Estado dos Livores: ${v.querySelector('.liv_' + ipnId).value || 'N/A'}\n`;
+                R += `  Mancha Verde: ${v.querySelector('.mvd_' + ipnId).checked ? 'Presente' : 'Ausente'}\n`;
+                R += `  Destacamento de Pele: ${v.querySelector('.destaquepi_' + ipnId).value || 'N/A'}\n`;
+                
+                let fenom = v.querySelector('.outrosFenom_' + ipnId);
+                if(fenom && fenom.value) {
+                    R += `  Outros Fenômenos: ${fenom.value}\n`;
                 }
                 R += "\n";
 
-                let ipnId = v.id.split('_')[1];
                 let rb = document.getElementById(`ipmRes_${ipnId}`);
                 if(rb && rb.getAttribute('data-ipmval')) {
-                    R += `Intervalo Post Mortem:\n${rb.getAttribute('data-ipmval')}\n\n`;
+                    R += `Intervalo Post Mortem:\n${rb.getAttribute('data-ipmval')}\n`;
+                    
+                    let minH = rb.getAttribute('data-minh');
+                    let maxH = rb.getAttribute('data-maxh');
+                    if (minH !== null && maxH !== null) {
+                        R += `Resumo Técnico: Com base na análise tanatológica preliminar (algor mortis, rigidez cadavérica, estado dos livores e sinais iniciais de putrefação), estima-se intervalo post mortem aproximado entre ${minH} e ${maxH} horas antes da perícia.\n`;
+                    }
+                    R += "\n";
                 }
 
                 let listaLesoes = v.querySelector(`#listaLesoes_${ipnId}`);
@@ -1141,7 +1119,8 @@
                 if(v.querySelector('.vei-vis').value) R += `Número VIS: ${v.querySelector('.vei-vis').value}\n`;
                 if(v.querySelector('.vei-vin').value) R += `Número VIN: ${v.querySelector('.vei-vin').value}\n`;
                 
-                let listaDanos = v.querySelector(`#listaDanos_${idx+1}`);
+                let vId = v.id.split('_')[1];
+                let listaDanos = v.querySelector(`#listaDanos_${vId}`);
                 if(listaDanos) {
                     let danos = listaDanos.querySelectorAll('.item-dinamico');
                     if(danos.length > 0) {
@@ -1197,12 +1176,12 @@
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    // ==================== LIMPAR FORMULÁRIO ====================
     function limparFormulario() {
         if(confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
             document.getElementById('formularioGerador').reset();
             document.getElementById('listaTecnicos').innerHTML = '';
             document.getElementById('listaVitimas').innerHTML = '';
+            document.getElementById('listaVeiculos').innerHTML = '';
             document.getElementById('listaVestibular').innerHTML = '';
             document.getElementById('resultadoContainer').style.display = 'none';
             document.getElementById('btnDownload').classList.add('escondido');
@@ -1211,14 +1190,17 @@
             document.getElementById('secLocalAberto').classList.add('escondido');
             document.getElementById('secViaPública').classList.add('escondido');
             document.getElementById('secVitimas').classList.remove('escondido');
+            
             contadorTecnicos = 0;
             contadorVitimas = 0;
+            contadorVeiculos = 0;
             contadorVestibulos = 0;
+            
             setTipoOcorrencia('morte_violenta');
+            localStorage.removeItem('relatorio_pericial');
         }
     }
 
-    // ==================== DOWNLOAD ====================
     function downloadRelatorio() {
         const texto = document.getElementById('relatorioText').value;
         const elemento = document.createElement('a');
@@ -1230,10 +1212,112 @@
         document.body.removeChild(elemento);
     }
 
-    // ==================== INICIALIZAÇÃO ====================
+    /* ==============================================
+       AUTO-SAVE (LOCALSTORAGE)
+    ============================================== */
+    function salvarFormulario() {
+        // Antes de salvar o HTML dinâmico, forçamos os valores atuais para os atributos
+        // HTML, para que o innerHTML os capture adequadamente
+        document.querySelectorAll('#formularioGerador input, #formularioGerador select, #formularioGerador textarea').forEach(el => {
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                if(el.checked) el.setAttribute('checked', 'checked');
+                else el.removeAttribute('checked');
+            } else if (el.tagName === 'TEXTAREA') {
+                el.innerHTML = el.value;
+            } else {
+                el.setAttribute('value', el.value);
+            }
+            if(el.tagName === 'SELECT') {
+                Array.from(el.options).forEach(opt => {
+                    if(opt.value === el.value) opt.setAttribute('selected', 'selected');
+                    else opt.removeAttribute('selected');
+                });
+            }
+        });
+
+        const obj = {
+            htmlTecnicos: document.getElementById('listaTecnicos').innerHTML,
+            htmlVitimas: document.getElementById('listaVitimas').innerHTML,
+            htmlVeiculos: document.getElementById('listaVeiculos').innerHTML,
+            htmlVestibular: document.getElementById('listaVestibular').innerHTML,
+            contadores: { contadorTecnicos, contadorVitimas, contadorVeiculos, contadorVestibulos },
+            estaticos: {}
+        };
+
+        // Salva os campos fixos da estrutura por ID
+        document.querySelectorAll('.secao > .conteudo-secao input[id], .secao > .conteudo-secao select[id], .secao > .conteudo-secao textarea[id]').forEach(el => {
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                obj.estaticos[el.id] = el.checked;
+            } else {
+                obj.estaticos[el.id] = el.value;
+            }
+        });
+
+        localStorage.setItem('relatorio_pericial', JSON.stringify(obj));
+    }
+
+    function carregarFormulario() {
+        const dados = localStorage.getItem('relatorio_pericial');
+        if(!dados) return;
+        
+        try {
+            const obj = JSON.parse(dados);
+
+            // Restaura o HTML dinâmico das listas
+            if(obj.htmlTecnicos !== undefined) document.getElementById('listaTecnicos').innerHTML = obj.htmlTecnicos;
+            if(obj.htmlVitimas !== undefined) document.getElementById('listaVitimas').innerHTML = obj.htmlVitimas;
+            if(obj.htmlVeiculos !== undefined) document.getElementById('listaVeiculos').innerHTML = obj.htmlVeiculos;
+            if(obj.htmlVestibular !== undefined) document.getElementById('listaVestibular').innerHTML = obj.htmlVestibular;
+
+            // Restaura os contadores para que novos itens sigam a numeração correta
+            if(obj.contadores) {
+                contadorTecnicos = obj.contadores.contadorTecnicos || 0;
+                contadorVitimas = obj.contadores.contadorVitimas || 0;
+                contadorVeiculos = obj.contadores.contadorVeiculos || 0;
+                contadorVestibulos = obj.contadores.contadorVestibulos || 0;
+            }
+
+            // Restaura os campos fixos
+            if(obj.estaticos) {
+                Object.keys(obj.estaticos).forEach(k => {
+                    const el = document.getElementById(k);
+                    if(el) {
+                        if (el.type === 'checkbox' || el.type === 'radio') {
+                            el.checked = obj.estaticos[k];
+                        } else {
+                            el.value = obj.estaticos[k];
+                        }
+                    }
+                });
+            }
+            
+            // Dispara eventos para atualizar UI conforme carregamento
+            document.querySelectorAll('input[type="checkbox"]').forEach(el => el.dispatchEvent(new Event('change')));
+            let checkedRadio = document.querySelector('input[name="tipoOcorrencia"]:checked');
+            if(checkedRadio) setTipoOcorrencia(checkedRadio.value);
+            
+        } catch (e) {
+            console.error("Erro ao carregar os dados:", e);
+        }
+    }
+
+
+    /* ==============================================
+       INICIALIZAÇÃO DA PÁGINA
+    ============================================== */
     window.onload = function() {
+        // Tenta carregar o formulário salvo (Auto-Save)
+        carregarFormulario();
+        
+        // Se nada foi carregado (primeiro acesso), inicia com os valores padrão
+        if(!document.querySelector('input[name="tipoOcorrencia"]:checked')) {
+            setTipoOcorrencia('morte_violenta');
+        }
         toggleNaturezaLocal();
-        setTipoOcorrencia('morte_violenta');
+
+        // Adiciona os event listeners para salvar automaticamente a cada alteração
+        document.getElementById('formularioGerador').addEventListener('input', salvarFormulario);
+        document.getElementById('formularioGerador').addEventListener('change', salvarFormulario);
     };
 </script>
 
