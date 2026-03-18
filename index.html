@@ -710,6 +710,26 @@
             <h3 style="margin-top: 20px;">Danos no Veículo</h3>
             <div id="listaDanos_${vId}"></div>
             <button type="button" class="btn-adicionar" style="background:#c0392b" onclick="addDano(${vId})">+ Adicionar Dano</button>
+
+            <h3 style="margin-top: 20px;">Danos no Veículo</h3>
+            <div class="checkbox-group">
+                <label class="check-card"><input type="checkbox" id="chk_guinada" onchange="toggleAgencia('div_guinada', this)"> Marcas de Guinada</label>
+                <label class="check-card"><input type="checkbox" id="chk_frenagem" onchange="toggleAgencia('div_frenagem', this)"> Marcas de Frenagem</label>
+                <label class="check-card"><input type="checkbox" id="chk_parada" onchange="toggleAgencia('div_parada', this)"> Distancia entre Ponto de Colisão e Imobilização</label>
+            </div>
+
+            <div id="div_guinada" class="agencia-detalhe">
+                <div class="campo"><label>Corda (em metros)</label><input type="text" id="bm_cargo" placeholder="Ex: 10.5"></div>
+                <div class="campo"><label>Flecha (em metros)</label><input type="text" id="bm_nome" placeholder="Ex: 0.8"></div>
+            </div>
+            <div id="div_frenagem" class="agencia-detalhe">
+                <div class="campo"><label>Comprimento da Marca de Frenagem até o Ponto de Imobilização (em metros)</label><input type="text" id="pc_cargo" placeholder="Ex: 5.3"></div>
+            </div>
+            <div id="div_parada" class="agencia-detalhe">
+                <div class="campo"><label>Distancia entre Ponto de Colisão e Imobilização (em metros)</label><input type="text" id="pc_cargo" placeholder="Ex: 10.4"></div>
+            </div>
+
+            
         </div>`;
         document.getElementById('listaVeiculos').insertAdjacentHTML('beforeend', html);
     }
