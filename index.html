@@ -735,6 +735,16 @@
                 <label>Flecha (m)</label>
                 <input type="number" id="flecha" step="0.1" oninput="calcGuinada()">
             </div>
+
+            <div class="campo">
+                <label>Tipo de Superfície</label>
+                <select id="coef_atrito" onchange="calcGuinada()">
+                    <option value="0.7">Asfalto seco</option>
+                    <option value="0.5">Asfalto molhado</option>
+                    <option value="0.4">Terra</option>
+                    <option value="0.6">Brita</option>
+                </select>
+            </div>
             
             <div class="res-ipm" id="res_guinada">
                 Resultado aparecerá aqui...
@@ -960,10 +970,24 @@
             return;
         }
     
-        // Fórmula do raio aproximado: R = (C² / (8f)) + (f / 2)
+        // Raio da curva
         let R = (Math.pow(corda,2) / (8 * flecha)) + (flecha / 2);
     
-        res.innerText = `Raio estimado da curva: ${R.toFixed(2)} m`;
+        // Coeficiente de atrito
+        let mu = parseFloat(document.getElementById('coef_atrito').value);
+    
+        // Gravidade
+        let g = 9.81;
+    
+        // Velocidade crítica (m/s)
+        let Vms = Math.sqrt(g * R * mu);
+    
+        // Converter para km/h
+        let Vkmh = Vms * 3.6;
+    
+        res.innerText =
+            `Raio estimado: ${R.toFixed(2)} m\n` +
+            `Velocidade crítica: ${Vkmh.toFixed(1)} km/h`;
     }
     
     // ==================== FRENAGEM ====================
