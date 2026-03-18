@@ -712,22 +712,59 @@
             <button type="button" class="btn-adicionar" style="background:#c0392b" onclick="addDano(${vId})">+ Adicionar Dano</button>
 
             <h3 style="margin-top: 20px;">Danos no Veículo</h3>
+            
             <div class="checkbox-group">
-                <label class="check-card"><input type="checkbox" id="chk_guinada" onchange="toggleAgencia('div_guinada', this)"> Marcas de Guinada</label>
-                <label class="check-card"><input type="checkbox" id="chk_frenagem" onchange="toggleAgencia('div_frenagem', this)"> Marcas de Frenagem</label>
-                <label class="check-card"><input type="checkbox" id="chk_parada" onchange="toggleAgencia('div_parada', this)"> Distancia entre Ponto de Colisão e Imobilização</label>
+            <label class="check-card">
+                <input type="checkbox" onchange="toggleAgencia('div_guinada', this)"> Marcas de Guinada
+            </label>
+            <label class="check-card">
+                <input type="checkbox" onchange="toggleAgencia('div_frenagem', this)"> Marcas de Frenagem
+            </label>
+            <label class="check-card">
+                <input type="checkbox" onchange="toggleAgencia('div_parada', this)"> Distância Pós-Colisão
+            </label>
+            </div>
+            
+            <!-- GUINADA -->
+            <div id="div_guinada" class="agencia-detalhe">
+            <div class="campo">
+                <label>Corda (m)</label>
+                <input type="number" id="corda" step="0.1" oninput="calcGuinada()">
+            </div>
+            <div class="campo">
+                <label>Flecha (m)</label>
+                <input type="number" id="flecha" step="0.1" oninput="calcGuinada()">
+            </div>
+            
+            <div class="res-ipm" id="res_guinada">
+                Resultado aparecerá aqui...
+            </div>
+            </div>
+            
+            <!-- FRENAGEM -->
+            <div id="div_frenagem" class="agencia-detalhe">
+            <div class="campo">
+                <label>Distância de Frenagem (m)</label>
+                <input type="number" id="dist_frenagem" step="0.1" oninput="calcFrenagem()">
+            </div>
+            
+            <div class="res-ipm" id="res_frenagem">
+                Resultado aparecerá aqui...
+            </div>
+            </div>
+            
+            <!-- PARADA -->
+            <div id="div_parada" class="agencia-detalhe">
+            <div class="campo">
+                <label>Distância Pós-Colisão (m)</label>
+                <input type="number" id="dist_parada" step="0.1" oninput="calcParada()">
+            </div>
+            
+            <div class="res-ipm" id="res_parada">
+                Resultado aparecerá aqui...
+            </div>
             </div>
 
-            <div id="div_guinada" class="agencia-detalhe">
-                <div class="campo"><label>Corda (em metros)</label><input type="text" id="bm_cargo" placeholder="Ex: 10.5"></div>
-                <div class="campo"><label>Flecha (em metros)</label><input type="text" id="bm_nome" placeholder="Ex: 0.8"></div>
-            </div>
-            <div id="div_frenagem" class="agencia-detalhe">
-                <div class="campo"><label>Comprimento da Marca de Frenagem até o Ponto de Imobilização (em metros)</label><input type="text" id="pc_cargo" placeholder="Ex: 5.3"></div>
-            </div>
-            <div id="div_parada" class="agencia-detalhe">
-                <div class="campo"><label>Distancia entre Ponto de Colisão e Imobilização (em metros)</label><input type="text" id="pc_cargo" placeholder="Ex: 10.4"></div>
-            </div>
 
             
         </div>`;
@@ -912,6 +949,55 @@
         resBox.setAttribute('data-maxh', maxH);
     }
 
+    // ==================== GUINADA ====================
+    function calcGuinada() {
+        let corda = parseFloat(document.getElementById('corda').value);
+        let flecha = parseFloat(document.getElementById('flecha').value);
+        let res = document.getElementById('res_guinada');
+    
+        if(!corda || !flecha) {
+            res.innerText = "Preencha os dados...";
+            return;
+        }
+    
+        // Fórmula do raio aproximado: R = (C² / (8f)) + (f / 2)
+        let R = (Math.pow(corda,2) / (8 * flecha)) + (flecha / 2);
+    
+        res.innerText = `Raio estimado da curva: ${R.toFixed(2)} m`;
+    }
+    
+    // ==================== FRENAGEM ====================
+    function calcFrenagem() {
+        let d = parseFloat(document.getElementById('dist_frenagem').value);
+        let res = document.getElementById('res_frenagem');
+    
+        if(!d) {
+            res.innerText = "Preencha os dados...";
+            return;
+        }
+    
+        // Fórmula simplificada: V ≈ √(254 * f * d)
+        let f = 0.7; // coeficiente médio asfalto seco
+        let V = Math.sqrt(254 * f * d);
+    
+        res.innerText = `Velocidade estimada: ${V.toFixed(1)} km/h`;
+    }
+    
+    // ==================== PÓS-COLISÃO ====================
+    function calcParada() {
+        let d = parseFloat(document.getElementById('dist_parada').value);
+        let res = document.getElementById('res_parada');
+    
+        if(!d) {
+            res.innerText = "Preencha os dados...";
+            return;
+        }
+    
+        // Exemplo simples: só mostrar distância (ou pode expandir depois)
+        res.innerText = `Deslocamento após impacto: ${d.toFixed(2)} m`;
+    }
+    
+        
 
     /* ==============================================
        GERAÇÃO DE RELATÓRIO E DADOS
