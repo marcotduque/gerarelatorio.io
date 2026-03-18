@@ -775,15 +775,33 @@
             
             <!-- PARADA -->
             <div id="div_parada" class="agencia-detalhe">
-            <div class="campo">
-                <label>Distância Pós-Colisão (m)</label>
-                <input type="number" id="dist_parada" step="0.1" oninput="calcParada()">
-            </div>
             
-            <div class="res-ipm" id="res_parada">
-                Resultado aparecerá aqui...
+                <div class="campo">
+                    <label>Distância total (m)</label>
+                    <input type="number" id="dist_parada" step="0.1" oninput="calcParada()">
+                </div>
+            
+                <div class="campo">
+                    <label>Tempo de reação (s)</label>
+                    <input type="number" id="tempo_reacao" step="0.1" value="1.0" oninput="calcParada()">
+                </div>
+            
+                <div class="campo">
+                    <label>Coeficiente de atrito</label>
+                    <select id="coef_parada" onchange="calcParada()">
+                        <option value="0.7">Asfalto seco</option>
+                        <option value="0.5">Asfalto molhado</option>
+                        <option value="0.4">Terra</option>
+                        <option value="0.6">Brita</option>
+                    </select>
+                </div>
+            
+                <div class="res-ipm" id="res_parada">
+                    Resultado aparecerá aqui...
+                </div>
+            
             </div>
-            </div>
+
 
 
             
@@ -1019,16 +1037,42 @@
     // ==================== PÓS-COLISÃO ====================
     function calcParada() {
         let d = parseFloat(document.getElementById('dist_parada').value);
+        let t = parseFloat(document.getElementById('tempo_reacao').value);
+        let f = parseFloat(document.getElementById('coef_parada').value);
         let res = document.getElementById('res_parada');
     
-        if(!d) {
+        if(!d || !t || !f) {
             res.innerText = "Preencha os dados...";
             return;
         }
     
-        // Exemplo simples: só mostrar distância (ou pode expandir depois)
-        res.innerText = `Deslocamento após impacto: ${d.toFixed(2)} m`;
+        let g = 9.81;
+    
+        // coeficientes da equação quadrática
+        let a = 1 / (2 * g * f);
+        let b = t;
+        let c = -d;
+    
+        // discriminante
+        let delta = b*b - 4*a*c;
+    
+        if(delta < 0) {
+            res.innerText = "Sem solução física.";
+            return;
+        }
+    
+        // solução positiva
+        let v = (-b + Math.sqrt(delta)) / (2 * a);
+    
+        // converter para km/h
+        let v_kmh = v * 3.6;
+    
+        res.innerText =
+            `Velocidade estimada: ${v_kmh.toFixed(1)} km/h\n` +
+            `Tempo de reação: ${t}s\n` +
+            `Coef. atrito: ${f}`;
     }
+
     
         
 
